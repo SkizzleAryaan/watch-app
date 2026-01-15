@@ -1,0 +1,19 @@
+# --- secrets ---
+.env
+.env.*
+!.env.example
+
+# --- node / builds ---
+node_modules/
+dist/
+build/
+.DS_Store
+
+# --- logs ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Vite local env ---
+.env.local
