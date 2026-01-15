@@ -6,7 +6,9 @@ const SERVICE_UUID = "12345678-1234-1234-1234-1234567890ab";
 const CHAR_UUID = "87654321-4321-4321-4321-ba0987654321";
 
 // Local AI server (change to cloud URL later)
-const AI_SERVER_URL = "http://localhost:8787";
+const AI_SERVER_URL = import.meta.env.VITE_AI_SERVER_URL || "http://localhost:8787";
+const AI_API_TOKEN = import.meta.env.VITE_AI_API_TOKEN || "";
+
 
 const enc = new TextEncoder();
 const dec = new TextDecoder();
@@ -297,8 +299,10 @@ export default function App() {
 
       const r = await fetch(`${AI_SERVER_URL}/api/cheatsheet`, {
         method: "POST",
+        headers: AI_API_TOKEN ? { "x-api-token": AI_API_TOKEN } : {},
         body: fd,
       });
+
 
       // If server is down, fetch will throw before here
       const data = await r.json();

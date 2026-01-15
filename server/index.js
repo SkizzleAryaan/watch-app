@@ -9,6 +9,20 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
+// --- Simple API protection ---
+// If API_TOKEN is set, require it for /api routes
+app.use("/api", (req, res, next) => {
+  const required = process.env.API_TOKEN;
+  if (!required) return next(); // if you didn't set it, allow everything
+
+  const got = req.get("x-api-token");
+  if (got !== required) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+  next();
+});
+
+
 const upload = multer({ storage: multer.memoryStorage() });
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -200,3 +214,5 @@ Company hint: ${companyHint ? companyHint : "(none)"}
 
 const port = process.env.PORT || 8787;
 app.listen(port, () => console.log(`Server running on http://localhost:${port}`));
+
+app.get("/health", (req, res) => res.json({ ok: true }));
