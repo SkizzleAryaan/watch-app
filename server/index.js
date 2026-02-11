@@ -51,7 +51,7 @@ app.post("/api/cheatsheet", upload.single("image"), async (req, res) => {
     }
 
     const prompt = `
-You are generating a compact "networking cheat sheet" for an engineering student speaking to a booth rep.
+You are generating a compact "networking cheat sheet" for a software engineering student speaking to a booth rep.
 The output must help the user START and SUSTAIN a useful conversation.
 
 Input: An image of a booth/logo/job listing OR a company name hint.
@@ -65,79 +65,48 @@ Return JSON exactly:
 Hard requirements:
 - Each bullet must be <= 88 characters.
 - Bullets must be HIGHLY ACTIONABLE for booth conversation.
-- At least 2 bullets must be QUESTIONS the user can ask a rep.
-- At least 1 bullet must be "signal line" that makes user sound relevant
-  (embedded/firmware/robotics angle if possible).
+- Maintain an embedded/firmware/robotics angle if possible
 - Avoid vague filler words: "innovative", "leader", "commitment", "solutions", "powerful".
 - Use concrete nouns: RTOS, C/C++, ARM, sensors, BLE, USB, FPGA, CAN, safety, etc.
 - If you can't confidently infer specifics from the image, do NOT guess facts.
   Instead, output smart, specific QUESTIONS that uncover the right info.
-- make it specific to the company, do not make it generic or random, it must relate to something the company does as a service, belives in, is working towards, etc
+- Do NOT include generic "nice to know" facts that don't lead to conversation. Each bullet should be a potential conversation starter or follow-up question that shows genuine interest and insight.
+- make it specific to the company, do not make it generic or random, it must relate to something the company does as a service, believes in, is working towards, etc
+- IMPORTANT: 2 bullets MUST be descriptions about the company that can be insightful or unique about the company: a unique fact, a project they work on, mission objective, etc. DOES NOT need to specific to my experience, but it is nice to have
+
 
 Good bullet examples (style):
+- "About: Apple focuses on innovation and sleekness of design to appeal to a broad audience when create devices for consumers"
 - "Ask: What teams ship embedded/firmware here—device, edge, or tooling?"
-- "Ask: What does your stack use—C/C++, RTOS, Linux, Zephyr, FreeRTOS?"
-- "Signal: I build ESP32/Pico BLE+RTC gadgets—what problems do juniors own?"
+- "Ask: What OS do you use, if any? Do teams build their own or use something off the shelf?"
+- "Signal: I built a smartwatch with an ESP32-S3 - could this relate to any work you do here?"
 - "Ask: What's a 90-day project for interns on your hardware/embedded team?"
+- "About: SpaceX's Starship is designed for full reusability, aiming to reduce space travel costs and enable Mars colonization. It uses Raptor engines powered by liquid methane and liquid oxygen."
+Each bullet must be true! If a company does NOT use embedded firmware, DO NOT ask or bring it up! only mention what they truly use / are seeking (which ties into the description bullets)
 
-When discussing stuff about myself and my background use the following infO: 
-University of Texas at Austin – Austin, TX                                                       Anticipated Graduation:  May 2026                                                                                                         Bachelor of Science in Electrical and Computer Engineering                                                                      
-GPA: 3.6/4.0  
-Specialization: Computer Architecture and Embedded Systems
-Relevant Courses: Embedded Systems Design Lab, Data Science Lab, Algorithms, Digital Logic Design, Circuit Theory	
-                                                              
-EXPERIENCE
-TVC Firmware Engineer Lead - Avionics Team                                                                                 Jan 2023 - May 2025
-Texas Rocket Engineering Lab (TREL) - Austin, TX
-Developed embedded C/C++ firmware for a 2-axis thrust vector control (TVC) system running on a NI sbRIO-9637
-Developed PWM-based actuator control system with microcontroller I/O and supporting driver electronics 
-Tuned the TVC control loop to operate at 100 Hz, ensuring <10 ms command-to-actuation latency
-Wrote Bash automation scripts to flash and synchronize firmware across 5 flight computers simultaneously in Linux
-Built a valve control FSM to sequence pressurization/purge operations and aborts during all launch phases
-Validated TVC behavior with simulation tests and system-level unit tests before integration
-Interfaced with GNC and Structures teams to align software control and understand valve/actuator dynamics
-Designed a 5000 lb-rated structural test stand in SOLIDWORKS, earning NASA/Virgin Galactic CDR approval
- 
-Robotics Software Engineer                                                                                                                Sep 2024 - Jan 2025
-ECLAIR Robotics - Austin, TX
-Collaborated on firmware–hardware integration for a PCR-testing robot with pipette control and data scanning
-Built real-time number recognition using a parallel prefixing algorithm with 95% accuracy from pipette images
-Engineered full preprocessing pipeline in Python using OpenCV and NumPy for OCR stability and noise reduction
-Contributed to Arduino–Python serial interface for synchronized motion control between robot and host system
-Organized version control and testing across the team via GitHub and Python unit test frameworks
-
-PROJECTS
-IoT Alarm Clock System                                                                                                        	           August 2025 - Present
-Developed C firmware for a networked alarm clock using TM4C123 and  ESP8266, configurable via web browser
-Interfaced ESP and MCU using UART to process MQTT messages (TCP) from HTML/iFrame-based web app
-Wrote MQTT publish/subscribe logic to sync time, alarm, and theme states between browser and MCU via broker
-Implemented LCD driver, SysTick clock, and GPIO-based input routines for real-time display and local control
-Designed 4-bit resistor-ladder DAC to play buzzer melodies for alarms and themes via waveform sequencing
-Integrated 12-bit ADC and photosensor to reflect ambient light level on LCD and Web App UI in real time
-Enabled manual alarm/time config via debounced switches and atomic updates with critical section guards
-Used oscilloscope and voltmeter to verify analog output, avoid race conditions, and ensure voltage stability
-
-Digital Logic Stopwatch/Timer System                                                                                              Jan 2024 - May 2024
-Designed a four-mode stopwatch/timer on Basys3 FPGA using Verilog, FSMs, and real-time I/O control
-Achieved 10ms resolution by dividing 100 MHz clock input and driving seven-segment LED displays
-Mapped tactile switch inputs to constrained I/O using .xdc pin assignments and debounce logic
-Validated timing and logic with Vivado RTL simulation, constraint checks, and synthesis flow
-
-The Legend of Sir Kit: Game System                                                                                               Jan 2023 – May 2023
-Built an interactive 8-bit game system on a TM4C123 microcontroller using C, interrupt-driven control, and ARM 
-Programmed periodic timers and GPIO interrupts to read joystick/buttons via 2 ADC channels at 100 Hz sampling
-Generated in-game audio using a 6-bit DAC wave synthesis at ~11 kHz output rate via timer interrupts
-Rendered gameplay to a ST7735 LCD over SPI with 16×16 custom sprite animations and tilemaps
-Added multilingual UI support, real-time score display, and sprite-based cutscene transitions
-Assembled hardware for joystick, speaker, buttons, LCD, and wiring harnesses with pin-mapped GPIO
-Debugged ISR timing, sprite collisions, and animation sequencing for stable gameplay 
-
-SKILLS
-Technical Skills: Python, C/C++, Java, Verilog, ARM, C#, Javascript, HTML/CSS, Assembly, FSM, UART, 
-Developer Tools: Git/GitHub, Xilinx Vivado, Keil uVision, VS Code, LTSpice, MongoDB, Linux, Arduino
-Work Eligibility: Eligible to work in the U.S. with no restrictions
-
-Any talking abouts myself should pertain to any of the above information
+About Me: When possible keep questions speciifc to any work related to my experience in - 
+- robotics
+- c/c++ 
+- embedded systems
+- firmware
+- hardware integration
+- real-time control systems
+- linux
+- solidworks
+- python
+- opencv
+- data science
+- ARM microcontrollers
+- FPGA design
+- IoT devices
+- edge ai
+Projects: 
+- custom smart watch
+- thrust vector control for texas rocket engineering lab
+- pcr automation robot for ECLAIR robotics
+- iot alarm clock system
+- honda pet "baby monitor" for vehicles device
+- digital logic stopwatch/timer on FPGA
 
 Company hint: ${companyHint ? companyHint : "(none)"}
 `;
